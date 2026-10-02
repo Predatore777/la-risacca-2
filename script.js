@@ -100,8 +100,29 @@ const reduce = matchMedia("(prefers-reduced-motion: reduce)").matches;
 
 /* header */
 const hdr = $("#hdr"), burger = $("#burger");
-const onScroll = () => hdr.classList.toggle("on", scrollY > 40);
-addEventListener("scroll", onScroll, { passive: true }); onScroll();
+const prog = $("#prog"), bar = $(".bar"), heroBg = $(".hero-bg"), plate = $(".hero-plate");
+const pars = [[".collage .c2", -0.07], [".collage .c3", 0.09], [".band-img", -0.05], [".strip .up", -0.05]]
+  .flatMap(([s, k]) => $$(s).map(el => ({ el, k })));
+let lastY = 0, tick = false;
+function frame() {
+  tick = false;
+  const y = scrollY, vh = innerHeight;
+  hdr.classList.toggle("on", y > 40);
+  if (!hdr.classList.contains("open")) hdr.classList.toggle("hide", y > 500 && y > lastY + 2);
+  if (y < lastY - 2) hdr.classList.remove("hide");
+  lastY = y;
+  bar.classList.toggle("show", y > vh * 0.5);
+  prog.style.transform = "scaleX(" + Math.min(1, y / (document.documentElement.scrollHeight - vh)) + ")";
+  if (reduce) return;
+  if (y < vh * 1.3) { heroBg.style.translate = "0 " + (y * 0.22).toFixed(1) + "px"; plate.style.translate = "0 " + (-y * 0.1).toFixed(1) + "px"; }
+  for (const p of pars) {
+    const r = p.el.getBoundingClientRect();
+    if (r.bottom < -100 || r.top > vh + 100) continue;
+    p.el.style.translate = "0 " + ((r.top + r.height / 2 - vh / 2) * p.k).toFixed(1) + "px";
+  }
+}
+const onScroll = () => { if (!tick) { tick = true; requestAnimationFrame(frame); } };
+addEventListener("scroll", onScroll, { passive: true }); addEventListener("resize", onScroll); frame();
 const closeNav = () => { hdr.classList.remove("open"); burger.setAttribute("aria-expanded", "false"); };
 burger.addEventListener("click", () => {
   const o = hdr.classList.toggle("open"); burger.setAttribute("aria-expanded", o);
@@ -130,7 +151,7 @@ function show(i) {
     `<h3>${m.t}</h3>` +
     m.g.map((g, k) =>
       (k === 1 && m.img[1] ? `<img class="dish l" src="img/${m.img[1]}.webp" alt="" loading="lazy">` : "") +
-      `<h4>${g[0]}</h4><ul>` + g[1].map(d => `<li><span>${d[0]}</span><b>${d[1]}</b></li>`).join("") + "</ul>"
+      `<h4>${g[0]}</h4><ul>` + g[1].map((d, n) => `<li style="animation-delay:${Math.min(n, 14) * 35}ms"><span>${d[0]}</span><b>${d[1]}</b></li>`).join("") + "</ul>"
     ).join("") +
     (m.g.length === 1 && m.img[1] ? `<img class="dish l" src="img/${m.img[1]}.webp" alt="" loading="lazy">` : "");
   panel.style.animation = "none"; void panel.offsetWidth; panel.style.animation = "";

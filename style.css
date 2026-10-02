@@ -247,3 +247,74 @@ h2{font-size:clamp(2rem,7.2vw,3.3rem);margin-bottom:.45em}
   .band-txt h2::after{margin-left:0}
   .band-rev .band-img{order:2}
 }
+
+/* ===== v3: movimento ===== */
+html{overflow-x:clip}
+.btn:active,.bar a:active,.tabs button:active{transform:scale(.96)}
+.prog{position:fixed;top:0;left:0;right:0;height:2px;background:var(--gold2);transform-origin:0 50%;transform:scaleX(0);z-index:70;pointer-events:none}
+.hdr{transition:background .4s,padding .4s,box-shadow .4s,transform .45s ease}
+.hdr.hide{transform:translateY(-110%)}
+.bar{transform:translateY(110%);transition:transform .5s ease}
+.bar.show{transform:none}
+
+/* copertina */
+.hero{overflow:visible}
+.hero-bg{animation:ken 22s ease-out both;will-change:transform}
+@keyframes ken{from{transform:scale(1.16)}to{transform:scale(1)}}
+.hero-in>*{opacity:0;animation:up 1s cubic-bezier(.2,.7,.2,1) forwards}
+.hero-in>*:nth-child(1){animation-delay:.25s}
+.hero-in>*:nth-child(2){animation-delay:.45s}
+.hero-in>*:nth-child(3){animation-delay:.7s}
+.hero-in>*:nth-child(4){animation-delay:.95s}
+@keyframes up{from{opacity:0;transform:translateY(26px)}to{opacity:1;transform:none}}
+.hero-plate{opacity:0;animation:plate 1.4s cubic-bezier(.2,.7,.2,1) 1.1s forwards;will-change:translate}
+@keyframes plate{from{opacity:0;scale:.8;rotate:-14deg}to{opacity:1;scale:1;rotate:0deg}}
+.hero-clip{position:absolute;inset:0;overflow:hidden}
+.hero-bg{inset:-6% 0 auto 0;height:112%}
+
+/* nastro */
+.marq{overflow:hidden;border-block:1px solid rgba(184,151,90,.45);padding:16px 0;background:var(--cream)}
+.marq-t{display:flex;width:max-content;animation:marq 38s linear infinite}
+.marq span{font-family:var(--serif);font-style:italic;font-size:1.5rem;color:var(--navy);white-space:nowrap;padding-right:26px}
+.marq span::after{content:"✦";font-style:normal;font-size:.7rem;color:var(--gold);margin-left:26px;vertical-align:middle}
+@keyframes marq{to{transform:translateX(-50%)}}
+
+/* collage: le foto entrano una alla volta */
+.collage img{opacity:0;transform:translateY(34px) scale(.95);transition:opacity .9s ease,transform 1.1s cubic-bezier(.2,.7,.2,1);will-change:translate}
+.collage.in img{opacity:1;transform:none}
+.collage.in .c2{transition-delay:.18s}
+.collage.in .c3{transition-delay:.36s}
+.collage .note{opacity:0;transform:translateY(14px);transition:opacity .7s ease .6s,transform .7s ease .6s}
+.collage.in .note{opacity:1;transform:none}
+.strip .note{opacity:0;transition:opacity .8s ease .5s}
+.strip .in .note{opacity:1}
+
+/* archi che si scoprono */
+.band-img img{clip-path:inset(100% 0 0 0);transition:clip-path 1.3s cubic-bezier(.3,.7,.2,1) .15s}
+.band-img.in img{clip-path:inset(0)}
+.band-img::before{opacity:0;transition:opacity .9s ease .9s}
+.band-img.in::before{opacity:1}
+
+/* scala e menu */
+.step.rv{transform:translateY(30px) scale(.94)}
+.step.rv.in{transform:none}
+.step img{transition:transform .8s cubic-bezier(.2,.7,.2,1) .3s}
+.step.rv:not(.in) img{transform:rotate(-40deg) scale(.7)}
+.panel li{animation:li .5s ease both}
+@keyframes li{from{opacity:0;transform:translateX(-10px)}}
+.dish{animation:dish .9s cubic-bezier(.2,.7,.2,1) both}
+@keyframes dish{from{opacity:0;scale:.6;rotate:-50deg}}
+.car img{transition:transform .5s ease}
+@media (hover:hover){
+  .car img:hover{transform:scale(1.03)}
+  .collage img:hover,.strip img:hover{filter:brightness(1.06)}
+}
+@media (prefers-reduced-motion:reduce){
+  .hero-bg,.hero-in>*,.hero-plate,.marq-t,.panel li,.dish{animation:none;opacity:1}
+  .collage img,.collage .note,.strip .note{opacity:1;transform:none;transition:none}
+  .band-img img{clip-path:none;transition:none}
+  .band-img::before{opacity:1}
+  .step.rv,.step.rv:not(.in) img{transform:none}
+  .bar{transform:none;transition:none}
+  .hdr.hide{transform:none}
+}
