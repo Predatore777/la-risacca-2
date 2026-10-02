@@ -207,3 +207,43 @@ h2{font-size:clamp(2rem,7.2vw,3.3rem);margin-bottom:.45em}
   .rv{opacity:1;transform:none;transition:none}
   .panel{animation:none}
 }
+
+/* ===== v2 ===== */
+/* collage: 3 foto anche su telefono */
+.collage .c3{display:block;grid-column:9/13;grid-row:1;aspect-ratio:1/1;margin-top:3%;z-index:1}
+.split.rev .collage .c3{grid-column:1/5}
+.collage .c2{margin-top:50%}
+.collage.two .c2{margin-top:70%}
+
+/* chi c'è dietro: mosaico sfalsato su telefono */
+.strip{display:grid;grid-template-columns:1fr 1fr;gap:12px;overflow:visible;margin:0 auto;padding:0 0 30px;max-width:1140px}
+.strip figure{flex:none}
+.strip .up{margin-top:38px}
+.strip img{border-radius:14px}
+.strip .note{left:-40%;right:10px;bottom:-20px;font-size:1.02rem;padding:12px 14px}
+
+/* vino e distillati: foto ad arco con cornice oro */
+.band{background:var(--cream);color:var(--ink);display:grid;gap:44px;padding:84px var(--pad);text-align:center}
+.band-img{position:relative;width:min(72%,340px);margin:0 auto;isolation:isolate}
+.band-img::before{content:"";position:absolute;inset:0;border:1px solid var(--gold);border-radius:999px 999px 16px 16px;transform:translate(14px,14px);z-index:-1}
+.band-img img{width:100%;height:auto;max-height:none;aspect-ratio:3/4;object-fit:cover;object-position:50% 40%;border-radius:999px 999px 16px 16px;box-shadow:0 30px 50px -28px rgba(13,27,46,.6)}
+.band-rev .band-img::before{transform:translate(-14px,14px)}
+.band-txt{padding:0;max-width:520px;margin:0 auto}
+.band-txt h2{font-style:italic;color:var(--navy)}
+.band-txt h2::after{content:"";display:block;width:54px;height:1px;background:var(--gold);margin:22px auto 0}
+.band-txt p:not(.eyebrow){color:#3d4450;margin-bottom:26px}
+@media (min-width:900px){
+  .strip{display:flex;gap:22px;padding-bottom:50px}
+  .strip figure{flex:1}
+  .strip .up{margin-top:54px}
+  .strip img{border-radius:var(--r)}
+  .strip .note{left:12px;right:12px}
+  .collage .c3{margin-top:8%}
+  .collage .c2{margin-top:38%}
+  .band{grid-template-columns:minmax(0,400px) minmax(0,480px);justify-content:center;align-items:center;gap:110px;padding:120px var(--pad);text-align:left}
+  .band-img{width:100%}
+  .band-img img{height:auto;aspect-ratio:3/4}
+  .band-txt{padding:0;margin:0}
+  .band-txt h2::after{margin-left:0}
+  .band-rev .band-img{order:2}
+}
