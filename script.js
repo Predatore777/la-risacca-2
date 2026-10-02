@@ -108,8 +108,6 @@ function frame() {
   tick = false;
   const y = scrollY, vh = innerHeight;
   hdr.classList.toggle("on", y > 40);
-  if (!hdr.classList.contains("open")) hdr.classList.toggle("hide", y > 500 && y > lastY + 2);
-  if (y < lastY - 2) hdr.classList.remove("hide");
   lastY = y;
   bar.classList.toggle("show", y > vh * 0.5);
   prog.style.transform = "scaleX(" + Math.min(1, y / (document.documentElement.scrollHeight - vh)) + ")";
